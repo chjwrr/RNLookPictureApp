@@ -8,52 +8,52 @@ export default imageTypeToName = (type)=>{
     let anme = '';
 
     switch (type){
-        case 'pet':
+        case 'img_Pet':
             name = '宠物';
             break;
-        case 'model':
+        case 'img_beautifulModel':
             name = '模特';
             break;
-        case 'love':
+        case 'img_love':
             name = '爱情';
             break;
-        case 'comic':
+        case 'img_Comic':
             name = '动漫';
             break;
-        case 'freshAir':
+        case 'img_freshAir':
             name = '小清新';
             break;
-        case 'game':
+        case 'img_game':
             name = '游戏';
             break;
-        case 'superStar':
+        case 'img_superStar':
             name = '明星';
             break;
-        case 'car':
+        case 'img_car':
             name = '汽车';
             break;
-        case 'scenery':
+        case 'img_Scenery':
             name = '风景';
             break;
-        case 'military':
+        case 'img_Military':
             name = '军事';
             break;
-        case 'fashion':
+        case 'img_fashion':
             name = '时尚';
             break;
-        case 'sports':
+        case 'img_Sports':
             name = '运动';
             break;
-        case 'monthly':
+        case 'img_Monthly':
             name = '月历';
             break;
-        case 'film':
+        case 'img_Film':
             name = '影视';
             break;
-        case 'holiday':
+        case 'img_holiday':
             name = '节日';
             break;
-        case 'word':
+        case 'img_word':
             name = '文字';
             break;
         default:

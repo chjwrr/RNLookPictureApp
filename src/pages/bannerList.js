@@ -35,6 +35,7 @@ import NavigationBar from '../comment/navigationBar/navigationBar';
 import {StatusBar_Height} from '../constance/constValues';
 import Toast from '@remobile/react-native-toast';
 import ShowBigImage from '../comment/showBigImage/showBigImage';
+import Bmob from '../lib/app'
 
 class bannerList extends Component<{}> {
 
@@ -63,24 +64,27 @@ class bannerList extends Component<{}> {
 
     //获取列表数据
     getBannerData(type){
-        this.props.getBannerData({
-            successFunc: (data)=>{
-                if (type === 'refresh'){
-                    this.setState({
-                        data
-                    })
-                }else
-                    this.setState({
-                        data:this.state.data.concat(data)
-                    })
-
-            },
-            completeFunc:()=>{
+        let bannerRandom = Math.floor(Math.random()*4324);
+        const bannerQuery = Bmob.Query("famous");
+        bannerQuery.limit(10); // 条数
+        bannerQuery.skip(bannerRandom); // 从第几条数据开始
+        bannerQuery.find().then(data => {
+            console.log('banner data:', data);
+            if (type === 'refresh'){
                 this.setState({
+                    data
+                })
+            }else
+                this.setState({
+                    data:this.state.data.concat(data),
                     isRefresh: false
                 })
-            }
-        })
+        }).catch((err)=>{
+            console.log(err);
+            this.setState({
+                isRefresh: false
+            })
+        });
     }
 
     /*flatList Item*/

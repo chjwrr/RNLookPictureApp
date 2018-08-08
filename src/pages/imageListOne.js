@@ -1,9 +1,6 @@
 /**
  * Created by chj on 2018/7/26.
  */
-/**
- * Created by chj on 2018/5/16.
- */
 
 import React, { Component } from 'react';
 import {
@@ -27,6 +24,7 @@ import ImageItemFour from '../comment/imageListOne/imageItemFour';
 import ImageItemFive from '../comment/imageListOne/imageItemFive';
 import {StatusBar_Height} from '../constance/constValues';
 import ShowBigImage from '../comment/showBigImage/showBigImage';
+import Bmob from '../lib/app'
 
 class imageListOne extends Component<{}> {
 
@@ -57,21 +55,45 @@ class imageListOne extends Component<{}> {
         this.getImageListData()
     }
     //获取列表数据
-    getImageListData(){
-        this.props.getImageListData({
-            params: {type: this.state.imageType},
-            successFunc: (data)=>{
-                console.log(data);
-                this.setState({
-                    dataSource:this.state.dataSource.concat(data)
-                })
-            },
-            completeFunc:()=>{
+    getImageListData(type){
+        let imageRandom = Math.floor(Math.random()*32940);
+        const imageQuery = Bmob.Query(this.state.imageType);
+        imageQuery.limit(12); // 条数
+        imageQuery.skip(imageRandom); // 从第几条数据开始
+        imageQuery.find().then(result => {
+            console.log('image result:', result);
+
+            if(result.length != 12){
                 this.setState({
                     isRefresh: false
                 })
             }
-        })
+            else{
+                let object = [
+                    {'one': [result[0],result[1],result[2]]},
+                    {'two': [result[3],result[4],result[5]]},
+                    {'three': [result[6],result[7]]},
+                    {'four': [result[8],result[9],result[10]]},
+                    {'five': [result[11]]},
+                ];
+
+                if (type === 'refresh'){
+                    this.setState({
+                        dataSource: object,
+                        isRefresh: false
+                    })
+                }else
+                    this.setState({
+                        dataSource:this.state.dataSource.concat(object),
+                        isRefresh: false
+                    })
+            }
+        }).catch((err)=>{
+            console.log(err);
+            this.setState({
+                isRefresh: false
+            })
+        });
     }
 
     /*图片点击*/
@@ -102,11 +124,7 @@ class imageListOne extends Component<{}> {
     }
     /*下拉刷新*/
     refreshData(){
-        this.setState({
-            dataSource: []
-        },()=>{
-            this.getImageListData()
-        })
+        this.getImageListData('refresh')
     }
 
     /*加载更多*/

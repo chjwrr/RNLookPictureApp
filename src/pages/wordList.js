@@ -20,6 +20,7 @@ import WordTopItem from '../comment/wordList/wordTopItem';
 import LinearGradient from 'react-native-linear-gradient'
 import {ACTION_MIDDLEWARE_HTTP} from '../action/action';
 import Toast from '@remobile/react-native-toast';
+import Bmob from '../lib/app'
 
 const {width, height} = Dimensions.get('window');
 
@@ -81,64 +82,75 @@ class wordList extends Component<{}> {
             </View>
         )
     }
+
     //获取笑话列表数据
     getJokeData(type){
-        this.props.getJokeData({
-            successFunc: (data)=>{
-                if (type === 'refresh'){
-                    this.setState({
-                        jokeSource:data
-                    },()=>{
-                        this.setState({
-                            dataSource: this.state.jokeSource
-                        })
-                    })
-                }else {
-                    this.setState({
-                        jokeSource:this.state.jokeSource.concat(data)
-                    },()=>{
-                        this.setState({
-                            dataSource: this.state.jokeSource
-                        })
-                    })
-                }
 
-            },
-            completeFunc:()=>{
+        let jokeRandom = Math.floor(Math.random()*23560);
+        const jokeQuery = Bmob.Query("joke");
+        jokeQuery.limit(10); // 条数
+        jokeQuery.skip(jokeRandom); // 从第几条数据开始
+        jokeQuery.find().then(data => {
+            console.log('joke data:', data);
+            if (type === 'refresh'){
                 this.setState({
-                    isRefresh: false
+                    jokeSource:data
+                },()=>{
+                    this.setState({
+                        dataSource: this.state.jokeSource,
+                        isRefresh: false
+                    })
+                })
+            }else {
+                this.setState({
+                    jokeSource:this.state.jokeSource.concat(data)
+                },()=>{
+                    this.setState({
+                        dataSource: this.state.jokeSource,
+                        isRefresh: false
+                    })
                 })
             }
-        })
+        }).catch((err)=>{
+            console.log(err);
+            this.setState({
+                isRefresh: false
+            })
+        });
+
     }
     //获取说说列表数据
     getShuoData(type){
-        this.props.getShuoData({
-            successFunc: (data)=>{
-                if (type === 'refresh'){
-                    this.setState({
-                        shuoSource:data
-                    },()=>{
-                        this.setState({
-                            dataSource: this.state.shuoSource
-                        })
-                    })
-                }else {
-                    this.setState({
-                        shuoSource:this.state.shuoSource.concat(data)
-                    },()=>{
-                        this.setState({
-                            dataSource: this.state.shuoSource
-                        })
-                    })
-                }
-            },
-            completeFunc:()=>{
+        let wordRandom = Math.floor(Math.random()*6269);
+        const wordQuery = Bmob.Query("oneWord");
+        wordQuery.limit(10); // 条数
+        wordQuery.skip(wordRandom); // 从第几条数据开始
+        wordQuery.find().then(data => {
+            console.log('word data:', data);
+            if (type === 'refresh'){
                 this.setState({
-                    isRefresh: false
+                    shuoSource:data
+                },()=>{
+                    this.setState({
+                        dataSource: this.state.shuoSource
+                    })
+                })
+            }else {
+                this.setState({
+                    shuoSource:this.state.shuoSource.concat(data)
+                },()=>{
+                    this.setState({
+                        dataSource: this.state.shuoSource
+                    })
                 })
             }
-        })
+        }).catch((err)=>{
+            console.log(err);
+            this.setState({
+                isRefresh: false
+            })
+        });
+
     }
     /*下拉刷新*/
     refreshData(){
