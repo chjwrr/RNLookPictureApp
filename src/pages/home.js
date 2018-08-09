@@ -47,7 +47,6 @@ class home extends Component {
         this.dismissRefresh = this.dismissRefresh.bind(this);
     }
 
-
     componentDidMount() {
         this.refreshData()
     }
