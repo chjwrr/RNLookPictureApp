@@ -7,9 +7,6 @@ import {
     View,
     Text,
     StyleSheet,
-    TouchableOpacity,
-    Dimensions,
-    Image,
     ScrollView,
     RefreshControl,
 

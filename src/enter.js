@@ -41,9 +41,7 @@ const createStoreWithMiddleware = applyMiddleware(httpRequest, thunk , promise, 
 const store = createStoreWithMiddleware(reducer);
 
 
-
-type Props = {};
-export default class enter extends Component<Props> {
+export default class enter extends Component {
     render() {
         return (
             <Provider store={store}>

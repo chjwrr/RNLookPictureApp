@@ -22,8 +22,7 @@ import {
 const Navigation = createStackNavigator(Navigator.AppNavigationRouterConfigs, navigator.AppNavigationStackConfigs);
 
 
-type Props = {};
-class enter extends Component<Props> {
+class enter extends Component {
 
     render() {
         return (

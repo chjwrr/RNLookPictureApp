@@ -37,7 +37,7 @@ import Toast from '@remobile/react-native-toast';
 import ShowBigImage from '../comment/showBigImage/showBigImage';
 import Bmob from '../lib/app'
 
-class bannerList extends Component<{}> {
+class bannerList extends Component {
 
 
     constructor(props){
